@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #000;
+  font-family: sans-serif;
+  background-color: white;
+}
+
+.ant-layout,
+.ant-layout-sider {
+  background-color: white;
+}
+
+button,
+a {
+  padding: .4vmax;
+  border-radius: 10%;
+}
+
+button:hover,
+a:hover {
+  transform: scale(1.03);
+  cursor: grab;
+}
+
+.modal-html-content ol {
+  padding-left: .5vmax;
+}
+
+.modal-html-content li {
+  margin-bottom: .5vmax;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
