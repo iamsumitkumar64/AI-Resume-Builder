@@ -5,12 +5,16 @@ import { delfile } from "../services/delete_file.js";
 import { generatePass } from "../services/generatePass.js";
 import { sendPassEmail } from "../config/mailservice.js";
 import OtpDB from "../models/otpDB.js";
+import { isValidGmail } from '../services/validate_email_mobile.js';
 
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
             return res.status(400).json({ message: "Missing email or password" });
+        }
+        if (!isValidGmail(req.body.email)) {
+            return res.status(400).json({ message: 'Wrong Email Format' });
         }
         const user = await profileDB.findOne({ email });
         if (!user) {
@@ -51,6 +55,9 @@ export const logoutUser = (req, res) => {
 export const sendOtp = async (req, res) => {
     try {
         const { email } = req.body;
+        if (!isValidGmail(req.body.email)) {
+            return res.status(400).json({ message: 'Wrong Email Format' });
+        }
         const user = await profileDB.findOne({ email });
         if (!user) return res.status(404).json({ message: 'User not found' });
 
@@ -72,7 +79,9 @@ export const verifyOtp = async (req, res) => {
     try {
         const { email, otp } = req.body;
         if (!email || !otp) return res.status(400).json({ message: "Email and OTP are required" });
-
+        if (!isValidGmail(req.body.email)) {
+            return res.status(400).json({ message: 'Wrong Email Format' });
+        }
         const user = await profileDB.findOne({ email });
         if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -92,6 +101,9 @@ export const resetPassword = async (req, res) => {
         const { email, otp, password } = req.body;
         if (!email || !otp || !password) return res.status(400).json({ message: "Email, OTP, and password are required" });
 
+        if (!isValidGmail(req.body.email)) {
+            return res.status(400).json({ message: 'Wrong Email Format' });
+        }
         const user = await profileDB.findOne({ email });
         if (!user) return res.status(404).json({ message: "User not found" });
 

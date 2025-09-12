@@ -41,10 +41,6 @@ const currSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    curr_video_duplicate: {
-        type: String,
-        default: ''
-    },
     Curr_speech: {
         type: String,
         default: ''

@@ -9,7 +9,6 @@ import { saveParsedData } from '../services/saveParsedData.js';
 import { transcribeFile } from './extractaudio.js';
 import { getIo } from './socket.js';
 
-// Redis connection setup
 const connection = new ioredis({
     host: '127.0.0.1',
     port: 6379,
@@ -17,10 +16,8 @@ const connection = new ioredis({
     enableReadyCheck: false,
 });
 
-// Queue
 export const fileQueue = new Queue('fileQueue', { connection });
 
-// Worker
 const fileWorker = new Worker(
     'fileQueue',
     async job => {

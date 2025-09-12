@@ -8,7 +8,7 @@ const Login: React.FC = () => {
     return (
         <>
             <AuthForm
-                title="Welcome To AI Resume Builder"
+                title=" AI Resume Builder "
                 buttonText="Log In"
                 api={`${backend_url}/auth/login`}
                 redirectTo='/'

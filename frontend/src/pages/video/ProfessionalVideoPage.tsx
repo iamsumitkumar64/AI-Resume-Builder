@@ -18,15 +18,15 @@ const ProfessionalVideoPage: React.FC = () => {
     useEffect(() => {
         const handleUpload = (data: any) => {
             if (data.id === session?.id && data.filename.toLowerCase().includes('prof')) {
-                refreshUserStatus();
                 setTimeout(() => navigate('/video/review2'), 1500);
+                // refreshUserStatus();
             }
         };
         socket.on('videoUpload', handleUpload);
         return () => {
             socket.off('videoUpload', handleUpload);
         };
-    }, [session?.id, refreshUserStatus, navigate]);
+    }, [session?.id, navigate]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <>{error}</>;

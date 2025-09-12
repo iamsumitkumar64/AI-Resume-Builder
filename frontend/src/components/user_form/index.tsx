@@ -136,7 +136,10 @@ const ProfileForm: React.FC = () => {
                 }
             </Row>
 
-            <Form form={form} layout="vertical" onFinish={handleSubmit} className="text-white">
+            <Form form={form} layout="vertical" onFinish={handleSubmit} className="text-white"
+                onFinishFailed={() => {
+                    messageApi.error('Please fill form properly.');
+                }}>
                 <Row gutter={24}>
                     <Col span={24}>
                         <Card className='bg-gray-100 m-5' title="Personal Information">

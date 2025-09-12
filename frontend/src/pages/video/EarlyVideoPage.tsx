@@ -14,13 +14,13 @@ const EarlyVideoPage: React.FC = () => {
     useEffect(() => {
         const handleUpload = (data: any) => {
             if (data.id === session?.id && data.filename.toLowerCase().includes('early')) {
-                refreshUserStatus();
                 setTimeout(() => navigate('/video/review1'), 1500);
+                // refreshUserStatus();
             }
         };
         socket.on("videoUpload", handleUpload);
         return () => { socket.off("videoUpload", handleUpload); }
-    }, [session?.id, refreshUserStatus, navigate]);
+    }, [session?.id, navigate]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;

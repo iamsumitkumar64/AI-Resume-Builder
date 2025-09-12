@@ -12,6 +12,7 @@ import {
 import {
     LockOutlined,
     MailOutlined,
+    BookOutlined
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -65,9 +66,9 @@ const AuthForm: React.FC<AuthFormProps> = ({
             >
                 <Col xs={24} sm={22} md={18} lg={12} xl={10}>
                     {title && (
-                        <Paragraph className="text-3xl text-center mb-6 text-blue-500"
+                        <Paragraph className="text-3xl text-center mb-6 text-blue-600 font-bold"
                             style={{ fontFamily: 'outfit' }}>
-                            {title}
+                            <BookOutlined />{title}<BookOutlined />
                         </Paragraph>
                     )}
                     <Card style={{

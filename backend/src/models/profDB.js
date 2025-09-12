@@ -39,10 +39,6 @@ const profSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    prof_video_duplicate: {
-        type: String,
-        default: ''
-    },
     Prof_speech: {
         type: String,
         default: ''

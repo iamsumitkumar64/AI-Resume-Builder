@@ -1,10 +1,12 @@
 import React from 'react';
-import { Modal, Descriptions, Avatar, Divider } from 'antd';
+import { Modal, Descriptions, Avatar, Divider, Tag, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import type { profileViewerProps } from '../../schema/props';
 import backend_url from '../../Libs/env';
 
-const arrayRenderer = (arr?: string[]) => arr?.length ? arr.join(', ') : 'N/A';
+const { Text } = Typography;
+
+const arrayRenderer = (arr?: any) => arr?.length ? arr.map((item: any, i: any) => <Tag key={i} color="blue">{item}</Tag>) : <Text type="secondary">N/A</Text>;
 
 const Modal_ProfileViewer: React.FC<profileViewerProps> = ({
     open,
@@ -49,10 +51,10 @@ const Modal_ProfileViewer: React.FC<profileViewerProps> = ({
                 </div>
             } open={open}
             onCancel={onClose}
-            width={800}
+            width={1000}
             footer={null}
             modalRender={(modal) => (
-                <div className="border-red border-4 rounded-xl p-1">{modal}</div>
+                <div className="w-[80vw] h-[80vh] overflow-auto border-red border-4 rounded-xl p-1">{modal}</div>
             )}
         >
             <div className="text-center mb-6">
@@ -61,7 +63,7 @@ const Modal_ProfileViewer: React.FC<profileViewerProps> = ({
                     src={profilePhoto ? `${backend_url}/upload/${profileEmail}/${profilePhoto}` : ''}
                     icon={<UserOutlined />}
                 />
-                <h2 className="mt-2 text-xl font-semibold">
+                <h2 className="mt-1 text-xl font-semibold">
                     {[firstName, middleName, lastName].filter(Boolean).join(' ')}
                 </h2>
                 <p className="text-gray-600">{organization} | {position}</p>
@@ -83,13 +85,13 @@ const Modal_ProfileViewer: React.FC<profileViewerProps> = ({
                     <Descriptions.Item label="Age">{age || 'N/A'}</Descriptions.Item>
                     <Descriptions.Item label="Experience">{experience || 'N/A'} years</Descriptions.Item>
                     <Descriptions.Item label="Skills">{arrayRenderer(skills)}</Descriptions.Item>
-                    <Descriptions.Item label="Links">{arrayRenderer(contentLinks)}</Descriptions.Item>
+                    <Descriptions.Item label="Links">{contentLinks}</Descriptions.Item>
                     <Descriptions.Item label="Socials">
                         {(Object.entries(socials || {}) as [string, string][]).map(([platform, url]) =>
                             url ? (
                                 <div key={platform} className="mb-1">
                                     <strong>{platform}:</strong>{' '}
-                                    <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                                    <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
                                         {url}
                                     </a>
                                 </div>

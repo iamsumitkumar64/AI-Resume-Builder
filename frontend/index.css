@@ -12,24 +12,30 @@ body {
   padding: 0;
   color: #000;
   font-family: sans-serif;
-  background-color: white;
 }
 
+body,
 .ant-layout,
 .ant-layout-sider {
-  background-color: white;
+  background: linear-gradient(to bottom, #ffffff, #a7f5ff, #ffffff);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 button,
 a {
   padding: .4vmax;
-  border-radius: 10%;
 }
 
 button:hover,
 a:hover {
-  transform: scale(1.03);
+  transform: scale(1.03) translateY(-5%);
   cursor: grab;
+}
+
+button:hover {
+  box-shadow: 0 0 1vmax .2vmax rgb(138, 138, 138);
 }
 
 .modal-html-content ol {

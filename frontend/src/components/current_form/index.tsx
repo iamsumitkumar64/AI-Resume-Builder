@@ -93,7 +93,7 @@ const CurrentLifeForm: React.FC<CurrentLifeFormProps> = ({ onFormSubmit, nextRou
             messageApi.success('Current life data submitted!');
             setTimeout(() => {
                 if (onFormSubmit) onFormSubmit();
-                else refreshUserStatus();
+                // else refreshUserStatus();
                 if (nextRoute) navigate(nextRoute);
             }, 1000);
         } catch (error: any) {
@@ -117,6 +117,9 @@ const CurrentLifeForm: React.FC<CurrentLifeFormProps> = ({ onFormSubmit, nextRou
                 layout="vertical"
                 onFinish={handleSubmit}
                 className="text-white"
+                onFinishFailed={() => {
+                    messageApi.error('Please fill form properly.');
+                }}
             >
                 <Row gutter={24}>
                     <Col span={24}>
@@ -131,6 +134,7 @@ const CurrentLifeForm: React.FC<CurrentLifeFormProps> = ({ onFormSubmit, nextRou
                                     showCount
                                     placeholder="Summarize this person's current life in less than 75 words"
                                     value={summary}
+                                    required={true}
                                     onChange={(e) => setSummary(e.target.value)}
                                 />
                             </Form.Item>

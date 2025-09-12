@@ -92,6 +92,10 @@ const CommunityPage = () => {
                                     onClick={() => handleViewProfile(user.id)}
                                     className="rounded-3xl border-gray-700 text-center bg-gradient-to-bl from-purple-200 to-blue-200 hover:border-blue-200"
                                 >
+                                    <Badge.Ribbon
+                                        text={user.role == 'user' ? 'user' : 'admin'}
+                                        color='blue'
+                                    ></Badge.Ribbon>
                                     <Avatar
                                         size={80}
                                         src={
@@ -120,7 +124,7 @@ const CommunityPage = () => {
                         </Col>
                     ))}
                 </Row>
-            </div>
+            </div >
         </>
     );
 };

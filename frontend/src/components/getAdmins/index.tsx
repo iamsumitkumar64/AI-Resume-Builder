@@ -44,7 +44,7 @@ const GetAllAdmins = () => {
                 <Col key={index} xs={24} sm={12} md={8} lg={6}>
                     <Card
                         hoverable
-                        className="bg-blue-300 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105 hover:bg-blue-300"
+                        className="bg-gray-300 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
                     >
                         <Space direction="vertical" align="center" className="text-center gap-2 w-full">
                             <Avatar
@@ -52,9 +52,9 @@ const GetAllAdmins = () => {
                                 icon={<UserOutlined />}
                                 className="bg-blue-500"
                             />
-                            <Text className="text-white hover:scale-105">{admin.email}</Text>
+                            <Text className=" hover:scale-105">{admin.email}</Text>
                             {admin.mobile && (
-                                <Text className="text-white hover:scale-105">📱 {admin.mobile}</Text>
+                                <Text className=" hover:scale-105">📱 {admin.mobile}</Text>
                             )}
                             <CustomModal title="Admin Info">
                                 <Space direction="vertical" className="w-full">

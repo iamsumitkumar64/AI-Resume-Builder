@@ -45,10 +45,6 @@ const earlySchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    Early_video_duplicate: {
-        type: String,
-        default: ''
-    },
     Early_speech: {
         type: String,
         default: ''

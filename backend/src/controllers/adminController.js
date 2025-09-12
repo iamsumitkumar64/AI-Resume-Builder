@@ -8,6 +8,7 @@ import { generatePass } from '../services/generatePass.js';
 import bcrypt from "bcrypt";
 import { sendPassEmail } from '../config/mailservice.js';
 import { getIo } from '../config/socket.js';
+import { isValidGmail } from '../services/validate_email_mobile.js';
 
 export const Getadmins = async (req, res) => {
     try {
@@ -71,6 +72,9 @@ export const CametoApprove = async (req, res) => {
 
 export const AddUsers = async (req, res) => {
     try {
+        if (!isValidGmail(req.body.email)) {
+            return res.status(400).json({ message: 'Wrong Email Format' });
+        }
         const new_password = generatePass();
         sendPassEmail(req.body.email, new_password, process.env.FRONTEND_URL);
         const hashedPassword = await bcrypt.hash(new_password, 10);
@@ -181,48 +185,15 @@ export const AllUsers = async (req, res) => {
     }
 };
 
-// export const AllUsers = async (req, res) => {
-//     try {
-//         const users = await profileDB.find(
-//             // { CreatedBy: req.session.user.id },
-//             { role: 'user' },
-//             {
-//                 rejectionCount: 1,
-//                 password: 0,
-//                 __v: 0,
-//                 firstName: 0,
-//                 middleName: 0,
-//                 lastName: 0,
-//                 organization: 0,
-//                 city: 0,
-//                 area: 0,
-//                 introduction: 0,
-//                 quote: 0,
-//                 joy: 0,
-//                 contentLinks: 0,
-//                 skills: 0,
-//                 age: 0,
-//                 experience: 0,
-//                 profilePhoto: 0,
-//                 socials: 0,
-//                 profileComplete: 0,
-//                 updatedAt: 0,
-//                 CreatedBy: 0
-//             }
-//         );
-//         if (!users) {
-//             return res.status(404).json({ message: 'No User Exists' });
-//         }
-//         return res.status(200).json({ message: 'Fetched Success', users });
-//     } catch (err) {
-//         return res.status(500).json({ message: 'Failed to fetch users', error: err.message });
-//     }
-// };
-
 export const AllapproveUsers = async (req, res) => {
     try {
         const users = await profileDB.find(
-            { role: 'user', approvedByAdmin: 1 },
+            {
+                $or: [
+                    { approvedByAdmin: 1 },
+                    { role: "admin" }
+                ]
+            },
             {
                 password: 0,
                 __v: 0,

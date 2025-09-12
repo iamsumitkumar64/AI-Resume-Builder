@@ -28,7 +28,7 @@ const AdminPage: React.FC = () => {
     const [selectedProfile_Data, setselectedProfile_Data] = useState<any>(null);
     const [selectedProfile_Email, setselectedProfile_Email] = useState<string>('');
     const [selectedMenu, setSelectedMenu] = useState<string>('addUser');
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
 
     const fetchUsers = useCallback(async () => {
         try {

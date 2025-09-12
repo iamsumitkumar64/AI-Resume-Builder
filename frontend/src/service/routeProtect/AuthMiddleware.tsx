@@ -21,9 +21,6 @@ const AuthMiddleware = () => {
 
     const isAdmin = session.role === 'admin';
     if (isAdmin) {
-        if (location.pathname === '/profile') {
-            return <Navigate to="/community" replace />;
-        }
         return <Outlet />;
     }
     if (location.pathname === '/adduser') {

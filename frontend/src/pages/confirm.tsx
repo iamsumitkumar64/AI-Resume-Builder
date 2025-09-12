@@ -17,9 +17,11 @@ const ConfirmPage: React.FC = () => {
     const [sending, setSending] = useState(false);
     const [isApproved, setIsApproved] = useState(false);
     const [isRejected, setIsRejected] = useState(false);
+    const [isAdmin, setisAdmin] = useState(false);
     const session = SessionStore().session;
 
     useEffect(() => {
+        if (session?.role == 'admin') { setisAdmin(true); }
         if (userStatus?.approvedByAdmin == 1) {
             setIsApproved(true);
         }
@@ -127,7 +129,13 @@ const ConfirmPage: React.FC = () => {
     if (!userStatus?.stage3) {
         return <Navigate to="/video" replace />;
     }
-
+    if (isAdmin) {
+        return (
+            <LayoutWrapper title="You're Admin!">
+                <UserPage />
+            </LayoutWrapper>
+        );
+    }
     if (isRejected || userStatus.rejectionCount > 2) {
         return (
             <LayoutWrapper title="Profile Rejected">
@@ -138,14 +146,16 @@ const ConfirmPage: React.FC = () => {
                     extra={
                         <Space direction="vertical">
                             {userStatus.rejectionCount < 3 &&
-                                <> <Button
-                                    type="primary"
-                                    size="large"
-                                    onClick={handleSendForApproval}
-                                    loading={sending}
-                                >
-                                    📤 Resend to Admin for Approval
-                                </Button>
+                                <>
+                                    <Button
+                                        type="primary"
+                                        className='bg-blue-500'
+                                        size="large"
+                                        onClick={handleSendForApproval}
+                                        loading={sending}
+                                    >
+                                        📤 Resend to Admin for Approval
+                                    </Button>
                                     <Button
                                         danger
                                         size="large"
@@ -192,6 +202,7 @@ const ConfirmPage: React.FC = () => {
                     <Space direction="vertical">
                         <Button
                             size="large"
+                            className='bg-blue-300'
                             onClick={handleSendForApproval}
                             loading={sending}
                             disabled={userStatus?.sentforapproval}

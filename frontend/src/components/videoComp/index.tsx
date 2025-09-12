@@ -5,7 +5,6 @@ import { message, Button } from 'antd';
 const Record: React.FC<{ name_of_video: string; uploadApi: string; onUploadComplete?: () => void; nextRoute?: string }> = ({
     name_of_video,
     uploadApi,
-    onUploadComplete,
 }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const recorderRef = useRef<RecordRTC | null>(null);
@@ -13,7 +12,7 @@ const Record: React.FC<{ name_of_video: string; uploadApi: string; onUploadCompl
     const [blob, setBlob] = useState<Blob | null>(null);
     const [recording, setRecording] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
-    const [loading, setloading] = useState<boolean>(false);
+    const [isupload, setisUpload] = useState<boolean>(false);
 
     const stopCamera = () => {
         const tracks = (videoRef.current?.srcObject as MediaStream)?.getTracks();
@@ -29,6 +28,7 @@ const Record: React.FC<{ name_of_video: string; uploadApi: string; onUploadCompl
         recorder.startRecording();
         recorderRef.current = recorder;
         setRecording(true);
+        setisUpload(false);
     };
 
     const stop = () => recorderRef.current?.stopRecording(() => {
@@ -54,9 +54,10 @@ const Record: React.FC<{ name_of_video: string; uploadApi: string; onUploadCompl
         }
         stopCamera();
     };
-
     const upload = async () => {
-        if (!blob) return;
+        if (isupload || !blob) return;
+        setisUpload(true);
+
         const fixedBlob = new Blob([blob], { type: 'video/mp4' });
         const form = new FormData();
         const fieldName = name_of_video
@@ -65,21 +66,25 @@ const Record: React.FC<{ name_of_video: string; uploadApi: string; onUploadCompl
             .replace(/[^\w\s]/g, '')
             .replace(/\s+/g, '_');
         form.append(fieldName, fixedBlob, `${fieldName}.mp4`);
-        setloading(true);
+
+        messageApi.open({
+            type: 'loading',
+            content: 'Video sent to upload...',
+            duration: 0,
+        });
+
         try {
             const response = await fetch(uploadApi, { method: 'POST', body: form, credentials: 'include' });
             if (!response.ok) throw new Error('Upload failed');
-            messageApi.info('Uploaded');
             messageApi.destroy();
+            messageApi.success('Sent for Upload 🎉');
             stopCamera();
         } catch (err) {
             console.error('Upload error:', err);
-            messageApi.warning('Upload Failed');
-        } finally {
-            setloading(false);
+            messageApi.destroy();
+            messageApi.error('Upload Failed ❌');
         }
     };
-
     return (
         <>
             {contextHolder}
@@ -103,7 +108,6 @@ const Record: React.FC<{ name_of_video: string; uploadApi: string; onUploadCompl
                 }}>
                     <Button
                         className='text-blue-600 border-1 border-blue-600'
-                        loading={loading}
                         onClick={recording ? stop : start}
                     >
                         {recording ? '🛑 Stop' : '🎬 Start'}
@@ -112,11 +116,12 @@ const Record: React.FC<{ name_of_video: string; uploadApi: string; onUploadCompl
                         <>
                             <Button
                                 className='text-blue-600 border-1 border-blue-600'
-                                loading={loading}
+                                loading={isupload}
                                 onClick={upload}
                             >
                                 📤 Upload
                             </Button>
+
                             <Button
                                 className='text-blue-600 border-1 border-blue-600'
                                 onClick={() => {

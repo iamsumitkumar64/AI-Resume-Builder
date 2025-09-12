@@ -6,10 +6,8 @@ interface VideoNavigationProps {
     currentStep: string;
     userStatus: any;
 }
-
 const VideoNavigation: React.FC<VideoNavigationProps> = ({ currentStep, userStatus }) => {
     const navigate = useNavigate();
-
     const steps = [
         {
             title: 'Early Life',
@@ -79,5 +77,6 @@ const VideoNavigation: React.FC<VideoNavigationProps> = ({ currentStep, userStat
         </div>
     );
 };
+
 
 export default VideoNavigation;

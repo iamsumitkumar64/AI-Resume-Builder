@@ -17,15 +17,15 @@ const CurrentVideoPage: React.FC = () => {
     useEffect(() => {
         const handleUpload = (data: any) => {
             if (data.id === session?.id && data.filename.toLowerCase().includes('curr')) {
-                refreshUserStatus();
                 setTimeout(() => navigate('/video/review3'), 1500);
+                // refreshUserStatus();
             }
         };
         socket.on('videoUpload', handleUpload);
         return () => {
-            socket.off('videoUpload');
+            socket.off('videoUpload', handleUpload);
         };
-    }, [session?.id, refreshUserStatus, navigate]);
+    }, [session?.id, navigate]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <>{error}</>;
@@ -37,8 +37,14 @@ const CurrentVideoPage: React.FC = () => {
             <div className="w-full max-w-3xl p-6 bg-gray-100 rounded-md shadow-sm">
                 <Title level={4} className="text-center">📋 Rules for Current Life Recording</Title>
                 <ul className="list-disc pl-6 mt-4 space-y-2 text-base">
-                    <li>State your name and where you're currently based</li>
-                    <li>Give a brief intro — professionally and personally</li>
+                    <li>Clearly state your name, which city/country you are based in</li>
+                    <li>Give a brief introduction / overview of yourself - covering both professional and personal aspects</li>
+                    <li>Name of your current organization and your work profile</li>
+                    <li>Name the location or locations or you can say remote</li>
+                    <li>How and when did you start this journey?</li>
+                    <li>What work does the organization do - please describe what problems are solved via your products, solutions, services</li>
+                    <li>What is the current state? What progress has been made in terms of products, customers, revenues, team size or anything else</li>
+                    <li>Anything interesting you want to share about your organisation / startup, team etc.</li>
                 </ul>
             </div>
 

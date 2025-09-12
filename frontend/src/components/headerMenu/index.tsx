@@ -48,12 +48,10 @@ const HeaderComp: React.FC<HeaderProps> = ({ title_of_page }) => {
                 selectable={false}
                 className="bg-transparent font-bold rounded-full ml-auto text-center"
             >
-                {session?.role === 'user' && (
-                    <Menu.Item key="profile" icon={<UserOutlined />}
-                        className="!text-black hover:!text-blue-500">
-                        Profile
-                    </Menu.Item>
-                )}
+                <Menu.Item key="profile" icon={<UserOutlined />}
+                    className="!text-black hover:!text-blue-500">
+                    Profile
+                </Menu.Item>
                 {session?.role === 'admin' && (
                     <Menu.Item key="add-users" icon={<UserOutlined />}
                         className="!text-black hover:!text-blue-500">

@@ -12,7 +12,6 @@ export const saveParsedData = async ({ filename, profile, userEmail, userId, tra
                 email: userEmail,
                 early_life_data: parsedData,
                 Early_video: filename,
-                Early_video_duplicate: filename,
                 Early_speech: transcript,
             },
             { upsert: true, new: true }
@@ -31,7 +30,6 @@ export const saveParsedData = async ({ filename, profile, userEmail, userId, tra
                 email: userEmail,
                 prof_life_data: parsedData,
                 prof_video: filename,
-                prof_video_duplicate: filename,
                 Prof_speech: transcript,
             },
             { upsert: true, new: true }
@@ -50,7 +48,6 @@ export const saveParsedData = async ({ filename, profile, userEmail, userId, tra
                 email: userEmail,
                 curr_life_data: parsedData,
                 curr_video: filename,
-                curr_video_duplicate: filename,
                 Curr_speech: transcript,
             },
             { upsert: true, new: true }

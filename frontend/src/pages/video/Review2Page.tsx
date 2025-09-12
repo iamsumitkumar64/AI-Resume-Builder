@@ -10,7 +10,6 @@ const Review2Page: React.FC = () => {
     if (error) return <>{error}</>;
     if (!userStatus?.stage2) return <Navigate to="/profile" replace />;
     if (!userStatus?.review2_stage) return <Navigate to="/video/professional" replace />;
-
     return (
         <ProfessionalLifeForm
             onFormSubmit={refreshUserStatus}

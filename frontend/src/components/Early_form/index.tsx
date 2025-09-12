@@ -80,7 +80,7 @@ const EarlyLifeForm: React.FC<EarlyLifeFormProps> = ({ onFormSubmit, nextRoute }
             messageApi.success('Early life data submitted!');
             setTimeout(() => {
                 if (onFormSubmit) onFormSubmit();
-                else refreshUserStatus();
+                // else refreshUserStatus();
                 if (nextRoute) navigate(nextRoute);
             }, 1000);
         } catch (error: any) {
@@ -99,7 +99,10 @@ const EarlyLifeForm: React.FC<EarlyLifeFormProps> = ({ onFormSubmit, nextRoute }
                     <h2 className="text-blue-700 m-0 text-2xl">Review - Early Life</h2>
                 </Col>
             </Row>
-            <Form form={form} layout="vertical" onFinish={handleSubmit} className="text-white">
+            <Form form={form} layout="vertical" onFinish={handleSubmit} className="text-white"
+                onFinishFailed={() => {
+                    messageApi.error('Please fill form properly.');
+                }}>
                 <Row gutter={24}>
                     <Col span={24}>
                         <Card className="bg-gray-100 m-5" title="Basic Information">

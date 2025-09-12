@@ -4,11 +4,31 @@ import { Navigate, useNavigate, useLocation, Outlet } from 'react-router-dom';
 import LayoutWrapper from '../components/Layout/index.tsx';
 import VideoNavigation from '../components/VideoNavigation/index.tsx';
 import useUserStatus from '../hooks/useUserStatus';
+import { useEffect } from 'react';
+import SessionStore from '../store/sessionStore.tsx';
+import { socket } from '../config/socket.tsx';
 
 const VideoPage: React.FC = () => {
-    const { userStatus, loading, error } = useUserStatus();
+    const { userStatus, loading, error, refreshUserStatus } = useUserStatus();
     const navigate = useNavigate();
     const location = useLocation();
+    const session = SessionStore().session;
+
+    useEffect(() => {
+        const handleUpload = (data: any) => {
+            if (data.id === session?.id &&
+                (data.filename.toLowerCase().includes('early') ||
+                    data.filename.toLowerCase().includes('curr') ||
+                    data.filename.toLowerCase().includes('prof'))) {
+                refreshUserStatus();
+            } else if (data.userId === session?.id) {
+                refreshUserStatus();
+            }
+        };
+        socket.on("videoUpload", handleUpload);
+        socket.on("review", handleUpload);
+        return () => { socket.off("videoUpload", handleUpload); }
+    }, [session?.id, refreshUserStatus, navigate, userStatus]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <>{error}</>;
@@ -70,9 +90,7 @@ const VideoPage: React.FC = () => {
     const getNextStep = () => {
         return steps.find(step => step.enabled && !step.completed);
     };
-
     const nextStep = getNextStep();
-
     return (
         <LayoutWrapper title="Video Section">
             <VideoNavigation
@@ -97,12 +115,18 @@ const VideoPage: React.FC = () => {
                             </Button>
                         </>
                     )}
+                    <div className="flex m-auto justify-center mt-10">
+                        <video
+                            src="/resume.mp4"
+                            autoPlay muted loop
+                            className="max-w-sm rounded-md shadow-md shadow-black"
+                        />
+                    </div>
                 </div>
             ) :
                 <div className='max-h-[70vh] overflow-y-scroll'>
                     <Outlet />
                 </div>
-
             }
         </LayoutWrapper>
     );

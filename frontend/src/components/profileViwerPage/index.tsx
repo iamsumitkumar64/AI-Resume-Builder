@@ -73,7 +73,7 @@ const ProfileViewerPage: React.FC<profileViewerProps> = ({ profileData, profileE
                                     url ? (
                                         <p key={platform}>
                                             <Text strong>{platform}: </Text>
-                                            <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                                            <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
                                                 {url}
                                             </a>
                                         </p>

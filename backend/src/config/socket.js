@@ -14,7 +14,6 @@ const initializeSocket = (server) => {
         socket.on('someEvent', (data) => {
             console.log('Received someEvent:', data);
         });
-
         socket.on('disconnect', () => {
             console.log('Socket Disconnected:', socket.id);
         });

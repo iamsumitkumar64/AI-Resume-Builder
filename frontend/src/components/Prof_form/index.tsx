@@ -80,7 +80,7 @@ const ProfessionalLifeForm: React.FC<ProfessionalLifeFormProps> = ({ onFormSubmi
             messageApi.success('Professional life data submitted!');
             setTimeout(() => {
                 if (onFormSubmit) onFormSubmit();
-                else refreshUserStatus();
+                // else refreshUserStatus();
                 if (nextRoute) navigate(nextRoute);
             }, 1000);
         } catch (error: any) {
@@ -104,6 +104,9 @@ const ProfessionalLifeForm: React.FC<ProfessionalLifeFormProps> = ({ onFormSubmi
                 layout="vertical"
                 onFinish={handleSubmit}
                 className="text-white"
+                onFinishFailed={() => {
+                    messageApi.error('Please fill form properly.');
+                }}
             >
                 <Row gutter={24}>
                     <Col span={24}>

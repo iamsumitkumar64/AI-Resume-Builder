@@ -6,6 +6,8 @@ import { __dirname } from '../../index.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { fileQueue } from '../config/bullmq.js';
+import { isValidGmail } from '../services/validate_email_mobile.js';
+import { getIo } from '../config/socket.js';
 dotenv.config();
 
 export const getUserStatus = async (req, res) => {
@@ -177,6 +179,10 @@ export const updatevideo = async (req, res) => {
         if (!userId || !userEmail) {
             return res.status(401).json({ message: "User session invalid or expired" });
         }
+
+        if (!isValidGmail(userEmail)) {
+            return res.status(400).json({ message: 'Wrong Email Format' });
+        }
         const profile = await profileDB.findOne({ id: userId });
         if (!profile) {
             return res.status(404).json({ message: "User profile not found" });
@@ -234,6 +240,7 @@ export const updateEarlyLifeFormData = async (req, res) => {
             { prof_speech_stage: true },
             { new: true }
         );
+        getIo().emit('review', { userId });
         return res.status(200).json({
             message: 'Updated Early Life successfully',
             data: updatedEarly
@@ -295,6 +302,7 @@ export const updateProfessionalLifeFormData = async (req, res) => {
             { curr_speech_stage: true },
             { new: true }
         );
+        getIo().emit('review', { userId });
         return res.status(200).json({ message: "Professional life data updated", data: updated });
     } catch (err) {
         console.error("Update Prof Life Error:", err);
@@ -311,6 +319,9 @@ export const updateCurrentLifeFormData = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized or session expired' });
         }
 
+        if (!isValidGmail(userEmail)) {
+            return res.status(400).json({ message: 'Wrong Email Format' });
+        }
         const profile = await profileDB.findOne({ id: userId });
         if (!profile) {
             return res.status(404).json({ message: 'User not found' });
@@ -348,6 +359,7 @@ export const updateCurrentLifeFormData = async (req, res) => {
             { stage3: true, stage2: false },
             { new: true }
         );
+        getIo().emit('review', { userId });
         return res.status(200).json({
             message: 'Current life data updated successfully',
             data: updated

@@ -36,7 +36,7 @@ function multer_config(allowedTypes) {
     return multer({
         storage,
         fileFilter: filter,
-        limits: { fileSize: 1000 * 1024 * 1024 },
+        limits: { fileSize: 500 * 1024 * 1024 },
     });
 }
 

@@ -13,7 +13,7 @@ import useUserStatus from "../../hooks/useUserStatus";
 const { Sider } = Layout;
 
 const Sidebar: React.FC = () => {
-	const [collapsed, setCollapsed] = useState(false);
+	const [collapsed, setCollapsed] = useState(true);
 	const { userStatus } = useUserStatus();
 	const navigate = useNavigate();
 	const location = useLocation();

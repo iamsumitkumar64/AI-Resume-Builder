@@ -8,7 +8,7 @@ const AdminsContactPage = () => {
             <Card
                 title={<span className="text-lg font-semibold text-blue-900">Meet Our Admin Team</span>}
                 bordered={false}
-                className="w-full max-w-4xl shadow-md rounded-xl bg-gray-300"
+                className="w-full shadow-md rounded-xl bg-blue-300"
             >
                 <GetAllAdmins />
             </Card>
