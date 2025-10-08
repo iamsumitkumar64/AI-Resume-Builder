@@ -28,7 +28,7 @@ const AllRoutes = () => {
                         <LoginPage />
                     </GuestMiddleware>
                 }
-            />
+            /> 
             <Route path="/logout" element={<LogOutPage />} />
             <Route path="/admin_Contact" element={<AdminsContactPage />} />
             <Route path="/forget" element={<ForgetPassPage />} />
